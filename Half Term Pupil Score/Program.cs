@@ -38,6 +38,7 @@ namespace Half_Term_Pupil_Score
                 Console.Write("Enter your selection: ");
                 bool valid = false;
                 bool valid2;
+                string selection;
                 while (valid == false)
                 {
                     valid = true;
@@ -154,6 +155,151 @@ namespace Half_Term_Pupil_Score
                                 Console.Write("Do you want to add another student? (Y): ");
                                 repeat = Console.ReadLine().ToUpper();
                             } while (repeat == "Y");
+                            break;
+                        case "2":
+                            Console.Clear();
+                            valid2 = false;
+                            Console.Write("Please enter the student ID you wish to delete: ");
+                            selection = Console.ReadLine();
+                            foreach (TestData item in studentList)
+                            {
+                                if (selection == item.ID)
+                                {
+                                    valid2 = true;
+                                    studentList.Remove(item);
+                                    Console.WriteLine("Student {0} has been deleted from the database.", selection);
+                                    break;
+                                }
+                            }
+                            if (valid2 == false)
+                            {
+                                Console.WriteLine("Sorry, this is not a recognised ID.");
+                            }
+                            Console.ReadLine();
+                            break;
+                        case "3":
+                            Console.Clear();
+                            valid2 = false;
+                            Console.Write("Please enter the student ID you wish to update: ");
+                            selection = Console.ReadLine();
+                            foreach (TestData item in studentList)
+                            {
+                                if (selection == item.ID)
+                                {
+                                    studentList.Remove(item);
+                                    valid2 = true;
+                                    var x = new TestData();
+                                    float[] testScoresForXToFixBug = new float[4];
+                                    x.ID = selection;
+                                    Console.Write("Please enter the student's name: ");
+                                    x.name = Console.ReadLine();
+                                    Console.Write("Please enter the student's gender (M/F): ");
+                                    valid2 = false;
+                                    while (valid2 == false)
+                                    {
+                                        string genderInitial = Console.ReadLine().ToUpper();
+                                        if (genderInitial == "M" || genderInitial == "F")
+                                        {
+                                            if (genderInitial == "M")
+                                            {
+                                                x.gender = "Female";
+                                            }
+                                            else
+                                            {
+                                                x.gender = "Male";
+                                            }
+                                            valid2 = true;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid gender, try again.");
+                                        }
+                                    }
+                                    x.total = 0;
+                                    Console.Write("Please enter the first test score: ");
+                                    valid2 = false;
+                                    while (valid2 == false)
+                                    {
+                                        string testInitial;
+                                        testInitial = Console.ReadLine().ToUpper();
+                                        if (float.TryParse(testInitial, out x.test1))
+                                        {
+                                            valid2 = true;
+                                            x.total = x.total + x.test1;
+                                            testScoresForXToFixBug[0] = x.test1;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid number, try again.");
+                                        }
+                                    }
+                                    Console.Write("Please enter the second test score: ");
+                                    valid2 = false;
+                                    while (valid2 == false)
+                                    {
+                                        string testInitial;
+                                        testInitial = Console.ReadLine().ToUpper();
+                                        if (float.TryParse(testInitial, out x.test2))
+                                        {
+                                            valid2 = true;
+                                            x.total = x.total + x.test2;
+                                            testScoresForXToFixBug[1] = x.test2;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid number, try again.");
+                                        }
+                                    }
+                                    Console.Write("Please enter the mid-term test score: ");
+                                    valid2 = false;
+                                    while (valid2 == false)
+                                    {
+                                        string testInitial;
+                                        testInitial = Console.ReadLine().ToUpper();
+                                        if (float.TryParse(testInitial, out x.midterm))
+                                        {
+                                            valid2 = true;
+                                            x.total = x.total + x.midterm;
+                                            testScoresForXToFixBug[2] = x.midterm;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid number, try again.");
+                                        }
+                                    }
+                                    Console.Write("Please enter the final test score: ");
+                                    valid2 = false;
+                                    while (valid2 == false)
+                                    {
+                                        string testInitial;
+                                        testInitial = Console.ReadLine().ToUpper();
+                                        if (float.TryParse(testInitial, out x.final))
+                                        {
+
+                                            valid2 = true;
+                                            x.total = x.total + x.final;
+                                            testScoresForXToFixBug[3] = x.final;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Invalid number, try again.");
+                                        }
+                                    }
+                                    x.test1 = testScoresForXToFixBug[0];
+                                    x.test2 = testScoresForXToFixBug[1];
+                                    x.midterm = testScoresForXToFixBug[2];
+                                    x.final = testScoresForXToFixBug[3];
+                                    studentList.Add(x);
+                                    Console.WriteLine("This student's data has been replaced.");
+                                    break;
+                                }
+                            }
+                            if (valid2 == false)
+                            {
+                                Console.WriteLine("Sorry, this is not a recognised ID.");
+
+                            }
+                            Console.ReadLine();
                             break;
                         case "4":
                             Console.Clear();
