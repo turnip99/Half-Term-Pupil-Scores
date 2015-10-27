@@ -23,6 +23,10 @@ namespace Half_Term_Pupil_Score
         {
             List<TestData> studentList = new List<TestData>();
             Console.Clear();
+            TestData highest;
+            float highestValue;
+            string highestID;
+            string highestName;
             int h = 0;
             var z = new TestData();
             z.ID = "323";
@@ -79,8 +83,8 @@ namespace Half_Term_Pupil_Score
                 Console.WriteLine("3. Update Student Records");
                 Console.WriteLine("4. View all student records");
                 Console.WriteLine("5. Calculate average of select student's scores");
-                Console.WriteLine("6. Show student with the highest max score");
-                Console.WriteLine("7. Show Student with lowest total score");
+                Console.WriteLine("6. Show student with the highest total score");
+                Console.WriteLine("7. Show Student with the lowest total score");
                 Console.WriteLine("8. Find student by ID");
                 Console.WriteLine("9. Sort students by total scores");
                 Console.Write("Enter your selection: ");
@@ -207,7 +211,7 @@ namespace Half_Term_Pupil_Score
                         case "2":
                             Console.Clear();
                             valid2 = false;
-                            Console.Write("Please enter the student ID you wish to delete: ");
+                            Console.Write("Please enter the ID of the student you wish to delete: ");
                             selection = Console.ReadLine();
                             foreach (TestData item in studentList)
                             {
@@ -228,7 +232,7 @@ namespace Half_Term_Pupil_Score
                         case "3":
                             Console.Clear();
                             valid2 = false;
-                            Console.Write("Please enter the student ID you wish to update: ");
+                            Console.Write("Please enter the the ID of the student you wish to update: ");
                             selection = Console.ReadLine();
                             foreach (TestData item in studentList)
                             {
@@ -368,7 +372,7 @@ namespace Half_Term_Pupil_Score
                         case "5":
                             Console.Clear();
                             valid2 = false;
-                            Console.Write("Please enter the student ID you wish to find the average score of: ");
+                            Console.Write("Please enter the ID of the student you wish to find the average score of: ");
                             selection = Console.ReadLine();
                             foreach (TestData item in studentList)
                             {
@@ -387,7 +391,68 @@ namespace Half_Term_Pupil_Score
                             break;
                         case "6":
                             Console.Clear();
-                            Console.WriteLine("The highest score was ");
+                            highest = studentList[0];
+                            highestValue = highest.total;
+                            highestName = highest.name;
+                            highestID = highest.ID;
+                            for (int i = 1; i < studentList.Count; i++)
+                            {
+                                if (studentList[i].total > highestValue)
+                                {
+                                    highest = studentList[i];
+                                    highestValue = studentList[i].total;
+                                    highestID = studentList[i].ID;
+                                    highestName = studentList[i].name;
+                                }
+                            }
+                            Console.WriteLine("The highest scorer was {0} (ID: {1}) with {2} marks.", highestName, highestID, highestValue);
+                            Console.ReadLine();
+                            break;
+                        case "7":
+                            Console.Clear();
+                            TestData lowest = studentList[0];
+                            float lowestValue = lowest.total;
+                            string lowestName = lowest.name;
+                            string lowestID = lowest.ID;
+                            for (int i = 1; i < studentList.Count; i++)
+                            {
+                                if (studentList[i].total < lowestValue)
+                                {
+                                    lowest = studentList[i];
+                                    lowestValue = studentList[i].total;
+                                    lowestID = studentList[i].ID;
+                                    lowestName = studentList[i].name;
+                                }
+                            }
+                            Console.WriteLine("The lowest scorer was {0} (ID: {1}) with {2} marks.", lowestName, lowestID, lowestValue);
+                            Console.ReadLine();
+                            break;
+                        case "8":
+                            Console.Clear();
+                            valid2 = false;
+                            Console.Write("Please enter the ID of the student you wish to find: ");
+                            selection = Console.ReadLine();
+                            foreach (TestData item in studentList)
+                            {
+                                if (selection == item.ID)
+                                {
+                                    valid2 = true;
+                                    Console.WriteLine("ID: {0}", item.ID);
+                                    Console.WriteLine("Name: {0}", item.name);
+                                    Console.WriteLine("Gender: {0}", item.gender);
+                                    Console.WriteLine("First Test Score: {0}", item.test1);
+                                    Console.WriteLine("Second Test Score: {0}", item.test2);
+                                    Console.WriteLine("Mid-Term Test Score: {0}", item.midterm);
+                                    Console.WriteLine("Final Test Score: {0}", item.final);
+                                    Console.WriteLine("Total of Test Scores: {0} \n", item.total);
+                                    break;
+                                }
+                            }
+                            if (valid2 == false)
+                            {
+                                Console.WriteLine("Sorry, this is not a recognised ID.");
+                            }
+                            Console.ReadLine();
                             break;
                         case "9":
                             Console.Clear();
@@ -402,10 +467,10 @@ namespace Half_Term_Pupil_Score
                             volitileList = studentList;
                             for (int x = volitileList.Count; x > 0; x--)
                             {
-                                TestData highest = volitileList[0];
-                                float highestValue = highest.total;
-                                string highestID = highest.ID;
-                                string highestName = highest.name;
+                                highest = volitileList[0];
+                                highestValue = highest.total;
+                                highestID = highest.ID;
+                                highestName = highest.name;
                                 string highestGender = highest.gender;
                                 float highestScore1 = highest.test1;
                                 float highestScore2 = highest.test2;
@@ -448,8 +513,6 @@ namespace Half_Term_Pupil_Score
                                 z.total = sortedValue[i];
                                 studentList.Add(z);
                             }
-                            Console.WriteLine("There are {0} values in the list", studentList.Count);
-                            Console.ReadLine();
                             Console.WriteLine("The database has been permenantly reordered.");
                             Console.WriteLine("Here are the values of the student's sorted total scores: \n");
                             foreach (TestData item in studentList)
